@@ -28,9 +28,11 @@ public class Words {
 		}
 	}
 
-	private static final Pattern UNDESIRABLES = Pattern.compile("[][(){},@;:.;!?<>\"%]]");
+	private static final Pattern UNDESIRABLES = Pattern
+			.compile("[][(){},@;:.;!?<>\"%]]");
 
-	public static void main(String[] args) throws FileNotFoundException, IOException {
+	public static void main(String[] args) throws FileNotFoundException,
+			IOException {
 
 		String s = Paths.get("").toAbsolutePath().toString();
 
@@ -39,6 +41,7 @@ public class Words {
 
 		final String OUTPUT_FILE = s + "/Output.txt";
 		URL url = cls.getResource("/aliceInWonderland.txt");
+		URL url_dictionary = cls.getResource("/dictionary.txt");
 
 		InputStream in = url.openStream();
 
@@ -47,10 +50,15 @@ public class Words {
 		in.close();
 
 		str = UNDESIRABLES.matcher(str).replaceAll("");
+		str = str.replaceAll("--", "-");
+
 		str = str.toLowerCase();
 
 		String[] arr = str.split("\\s+");
-
+		Spelling sp = new Spelling(url_dictionary.getFile());
+		for (String x : arr) {
+			sp.correct(x);
+		}
 		Map<String, Integer> counts = new HashMap<String, Integer>();
 		for (int i = 0; i < arr.length; i++) {
 			String word = arr[i];
@@ -64,9 +72,8 @@ public class Words {
 
 		}
 
-
 		writeToFile(Sorting.sortByFrequency(counts), OUTPUT_FILE);
-		System.getProperty("java.classpath");
+
 	}
 
 }
