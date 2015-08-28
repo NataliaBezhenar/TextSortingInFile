@@ -6,8 +6,7 @@ import java.util.regex.*;
 
 class Spelling {
 
-	private final HashMap<String, Integer> nWords = new HashMap<String, Integer>();
-	
+	private final HashMap<String, Integer> nWords = new HashMap<>();
 
 	public Spelling(String file) throws IOException {
 		BufferedReader in = new BufferedReader(new FileReader(file));
@@ -20,7 +19,7 @@ class Spelling {
 	}
 
 	private final ArrayList<String> edits(String word) {
-		ArrayList<String> result = new ArrayList<String>();
+		ArrayList<String> result = new ArrayList<>();
 		for(int i=0; i < word.length(); ++i) result.add(word.substring(0, i) + word.substring(i+1));
 		for(int i=0; i < word.length()-1; ++i) result.add(word.substring(0, i) + word.substring(i+1, i+2) + word.substring(i, i+1) + word.substring(i+2));
 		for(int i=0; i < word.length(); ++i) for(char c='a'; c <= 'z'; ++c) result.add(word.substring(0, i) + String.valueOf(c) + word.substring(i+1));
@@ -31,7 +30,7 @@ class Spelling {
 	public final String correct(String word) {
 		if(nWords.containsKey(word)) return word;
 		ArrayList<String> list = edits(word);
-		HashMap<Integer, String> candidates = new HashMap<Integer, String>();
+		HashMap<Integer, String> candidates = new HashMap<>();
 		for(String s : list) if(nWords.containsKey(s)) candidates.put(nWords.get(s),s);
 		if(candidates.size() > 0) return candidates.get(Collections.max(candidates.keySet()));
 		for(String s : list) for(String w : edits(s)) if(nWords.containsKey(w)) candidates.put(nWords.get(w),w);

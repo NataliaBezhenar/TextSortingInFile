@@ -42,11 +42,8 @@ public class Words {
 		final String OUTPUT_FILE = s + "/Output.txt";
 		URL url = cls.getResource("/aliceInWonderland.txt");
 		URL url_dictionary = cls.getResource("/dictionary.txt");
-
 		InputStream in = url.openStream();
-
 		String str = IOUtils.toString(in);
-
 		in.close();
 
 		str = UNDESIRABLES.matcher(str).replaceAll("");
@@ -59,7 +56,7 @@ public class Words {
 		for (String x : arr) {
 			sp.correct(x);
 		}
-		Map<String, Integer> counts = new HashMap<String, Integer>();
+		Map<String, Integer> counts = new HashMap<>();
 		for (int i = 0; i < arr.length; i++) {
 			String word = arr[i];
 
